@@ -7,6 +7,14 @@ Run this to check for import errors before running the full Streamlit app.
 import sys
 import os
 
+# Load .env file first before any other imports
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+    print("✅ Environment loaded from .env file")
+except ImportError:
+    print("⚠️ python-dotenv not available, using system environment")
+
 def test_imports():
     """Test that all required modules can be imported."""
     print("Testing imports for cat_fetches app...")
