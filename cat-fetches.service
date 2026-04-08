@@ -1,0 +1,49 @@
+[Unit]
+Description=cat_fetches AI News Email App
+Documentation=https://github.com/your-org/cat_fetches
+After=network.target
+Wants=network.target
+
+[Service]
+Type=simple
+User=ubuntu
+Group=ubuntu
+WorkingDirectory=/home/ubuntu/cat_fetches
+Environment=PATH=/home/ubuntu/cat_fetches/venv/bin:/usr/local/bin:/usr/bin:/bin
+ExecStartPre=/bin/bash -c 'cd /home/ubuntu/cat_fetches && source venv/bin/activate && python test_app_imports.py'
+ExecStart=/home/ubuntu/cat_fetches/venv/bin/streamlit run app.py --server.port=8501 --server.address=0.0.0.0 --server.headless=true --server.enableCORS=false --server.enableXsrfProtection=true
+ExecReload=/bin/kill -s HUP $MAINPID
+KillMode=mixed
+TimeoutStopSec=5
+PrivateTmp=true
+Restart=on-failure
+RestartSec=10
+
+# Security settings
+NoNewPrivileges=true
+PrivateDevices=true
+ProtectHome=true
+ProtectSystem=strict
+ReadWritePaths=/home/ubuntu/cat_fetches
+RemoveIPC=true
+RestrictNamespaces=true
+RestrictRealtime=true
+RestrictSUIDSGID=true
+SystemCallArchitectures=native
+
+# Resource limits
+LimitNOFILE=65536
+MemoryMax=1G
+CPUQuota=50%
+
+# Environment files
+EnvironmentFile=-/etc/cat-fetches/environment
+EnvironmentFile=-/home/ubuntu/cat_fetches/.env
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=cat-fetches
+
+[Install]
+WantedBy=multi-user.target
