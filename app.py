@@ -3,6 +3,14 @@ Main Streamlit application for the AI News Email App (cat_fetches).
 Implements Apple-inspired UI design with topic selection, tone options, and length preferences.
 """
 
+# Load environment variables first before any other imports
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    # python-dotenv not available, skip .env loading
+    pass
+
 import streamlit as st
 from enum import Enum
 from typing import Optional
