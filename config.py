@@ -6,6 +6,14 @@ Provides secure configuration loading with validation and type safety.
 import os
 from dataclasses import dataclass
 
+# Try to load .env file if python-dotenv is available
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    # python-dotenv not available, skip .env loading
+    pass
+
 
 def _get_env(name: str, required: bool = True, default: str | None = None) -> str:
     """Get environment variable with validation."""
