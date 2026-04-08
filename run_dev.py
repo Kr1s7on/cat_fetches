@@ -4,6 +4,14 @@ Development runner for cat_fetches Streamlit app.
 Sets up minimal environment variables for local testing without requiring full config.
 """
 
+# Load environment variables first
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    # python-dotenv not available, skip .env loading
+    pass
+
 import os
 import sys
 import subprocess
